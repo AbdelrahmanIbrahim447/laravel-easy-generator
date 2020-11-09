@@ -1,0 +1,37 @@
+{
+    "name": "biscuit/easy-generator",
+    "description": "An easy use package to help developers doing their job faster.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Abdelrahman Ibrahim",
+            "email": "abdelrahman.ibrahim447@outlook.com"
+        }
+    ],
+    "keywords": [
+        "laravel",
+        "admin",
+        "crud generator",
+        "laravel helper"
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "biscuit\\easy-generator\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+
+        }
+    },
+    "extra":{
+        "laravel": {
+            "providers": [
+            ]
+        }
+    },
+    "require-dev": {
+        "orchestra/testbench": "^4.0"
+    }
+}
