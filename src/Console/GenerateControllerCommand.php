@@ -6,7 +6,6 @@ namespace biscuit\easyGenerator\Console;
 
 use biscuit\easyGenerator\Facades\Easy;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\File;
 
 class GenerateControllerCommand extends Command
 {
@@ -30,7 +29,7 @@ class GenerateControllerCommand extends Command
 
         $view = Easy::view($this->option('view'));
 
-        $content = File::get($this->getStub());
+        $content = Easy::getStub('Controller');
 
         $this->buildController($content,$name,$model,$plural_model,$lower_model,$view);
 
@@ -58,9 +57,5 @@ class GenerateControllerCommand extends Command
         );
 
         file_put_contents("./tests/temp/app/{$name}.php", $modelTemplate);
-    }
-    protected function getStub()
-    {
-        return __DIR__ . '/../Stubs/Controller.stub';
     }
 }

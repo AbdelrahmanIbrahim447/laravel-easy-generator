@@ -23,13 +23,14 @@ class GenerateModelCommand extends Command
 
         $namespace = Easy::namespace($this->option('namespace'));
 
-        $content = File::get($this->getStub());
+        $content = Easy::getStub('Model');
 
-        $this->buildController($content,$name,$namespace);
+        $this->buildModel($content,$name,$namespace);
+
         $this->info($name . ' created !');
 
     }
-    protected function buildController($content,$name,$namespace)
+    protected function buildModel($content,$name,$namespace)
     {
         $modelTemplate = str_replace(
             [
@@ -44,9 +45,5 @@ class GenerateModelCommand extends Command
         );
 
         file_put_contents("./tests/temp/{$name}.php", $modelTemplate);
-    }
-    protected function getStub()
-    {
-        return __DIR__ . '/../Stubs/Model.stub';
     }
 }

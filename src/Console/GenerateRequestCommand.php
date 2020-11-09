@@ -23,14 +23,14 @@ class GenerateRequestCommand extends Command
 
         $namespace = Easy::namespace($this->option('namespace'));
 
-        $content = File::get($this->getStub());
+        $content = Easy::getStub('Request');
 
-        $this->buildController($content,$name,$namespace);
+        $this->buildRequesst($content,$name,$namespace);
 
         $this->info($name . ' created !');
 
     }
-    protected function buildController($content,$name,$namespace)
+    protected function buildRequesst($content,$name,$namespace)
     {
         $modelTemplate = str_replace(
             [
