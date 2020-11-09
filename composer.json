@@ -15,23 +15,27 @@
         "laravel helper"
     ],
     "require": {},
+    ,
+    "require-dev": {
+        "orchestra/testbench": "^6.3",
+        "mockery/mockery": "^1.4",
+        "laravel/legacy-factories": "^1.0.4"
+    },
     "autoload": {
         "psr-4": {
-            "biscuit\\easy-generator\\": "src/"
+            "biscuit\\easyGenerator\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-
+            "biscuit\\easyGenerator\\": "tests/"
         }
     },
     "extra":{
         "laravel": {
             "providers": [
+
             ]
         }
-    },
-    "require-dev": {
-        "orchestra/testbench": "^4.0"
     }
 }

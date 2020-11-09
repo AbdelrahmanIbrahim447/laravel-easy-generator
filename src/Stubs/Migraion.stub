@@ -13,8 +13,7 @@ class create{{modelName}}Table extends Migration {
      */
     public function up()
     {
-        Model::unguard();
-        Schema::create('$TABLENAME$',function(Blueprint $table){
+        Schema::create({{tableName}},function(Blueprint $table){
             {{fields}}
         });
     }
@@ -26,7 +25,7 @@ class create{{modelName}}Table extends Migration {
      */
     public function down()
     {
-        Schema::drop('$TABLENAME$');
+        Schema::drop({{tableName}});
     }
 
 }

@@ -5,18 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Requests\{{modelName}}Request;
 use App\{{modelName}};
 
-class {{modelName}}Controller extends Controller
+class {{name}} extends Controller
 {
     public function index()
 {
     ${{modelNamePluralLowerCase}} = {{modelName}}::latest()->paginate(20);
 
-        return view('',compact({{modelNamePluralLowerCase}}));
+        return view('{{viewName}}',compact('{{modelNamePluralLowerCase}}'));
     }
 
     public function create()
     {
-        return view('');
+        return view('{{viewName}}');
     }
     public function store({{modelName}}Request $request)
     {
@@ -29,7 +29,7 @@ class {{modelName}}Controller extends Controller
     {
         ${{modelNameSingularLowerCase}} = {{modelName}}::findOrFail($id);
 
-        return view('',compact({{modelNamePluralLowerCase}}));
+        return view('{{viewName}}',compact('{{modelNamePluralLowerCase}}'));
     }
 
     public function update({{modelName}}Request $request, $id)
@@ -44,6 +44,6 @@ class {{modelName}}Controller extends Controller
     {
         {{modelName}}::destroy($id);
 
-        return view('',compact({{modelNamePluralLowerCase}}));
+        return view('{{viewName}}',compact('{{modelNamePluralLowerCase}}'));
     }
 }

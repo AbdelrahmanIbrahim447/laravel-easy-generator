@@ -1,10 +1,10 @@
 <?php
 
-namespace {{namespace}};
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class {{requestName}} extends FormRequest
+class PostRequest extends FormRequest
 {
     public function authorize()
     {
