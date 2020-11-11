@@ -17,7 +17,5 @@ class ModelCommandTest extends TestCase
             '--namespace' =>  'App',
         ])->expectsOutput('Post created !');
 
-        $this->assertFileExists('G:\Laravel\easyGenerator\tests\temp\Post.php');
-
     }
 }

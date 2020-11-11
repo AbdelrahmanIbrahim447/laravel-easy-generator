@@ -8,16 +8,17 @@ use App\{{modelName}};
 class {{name}} extends Controller
 {
     public function index()
-{
-    ${{modelNamePluralLowerCase}} = {{modelName}}::latest()->paginate(20);
+    {
+        ${{modelNamePluralLowerCase}} = {{modelName}}::latest()->paginate(20);
 
-        return view('{{viewName}}',compact('{{modelNamePluralLowerCase}}'));
+        return view('{{viewName}}.index',compact('{{modelNamePluralLowerCase}}'));
     }
 
     public function create()
     {
-        return view('{{viewName}}');
+        return view('{{viewName}}.create');
     }
+
     public function store({{modelName}}Request $request)
     {
         ${{modelNameSingularLowerCase}} = {{modelName}}::create($request->all());
@@ -29,7 +30,7 @@ class {{name}} extends Controller
     {
         ${{modelNameSingularLowerCase}} = {{modelName}}::findOrFail($id);
 
-        return view('{{viewName}}',compact('{{modelNamePluralLowerCase}}'));
+        return view('{{viewName}}.show',compact('{{modelNamePluralLowerCase}}'));
     }
 
     public function update({{modelName}}Request $request, $id)

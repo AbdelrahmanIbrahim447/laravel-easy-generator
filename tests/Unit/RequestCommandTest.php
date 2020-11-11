@@ -14,10 +14,9 @@ class RequestCommandTest extends TestCase
 
         $this->artisan('easy:request',[
             'name'  =>  'post',
+            '--rules'  =>  'title:required-max:2-min:2-unique:users,id|description:required-string',
             '--namespace' =>  'App\\Http\\Requests',
         ])->expectsOutput('PostRequest created !');
-
-        $this->assertFileExists('G:\Laravel\easyGenerator\tests\temp\Requests\PostRequest.php');
 
     }
 }

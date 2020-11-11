@@ -8,39 +8,39 @@ use Illuminate\Support\Str;
 
 class Inputs extends Validators
 {
-    public function name(string $name) : string
+    public function name( $name)
     {
         return ucfirst(Str::lower($name)) . 'Controller';
     }
 
-    public function request(string $name) :string
+    public function request( $name)
     {
         return ucfirst(Str::lower($name)) . 'Request';
     }
 
-    public function model(string $modelName) :string
+    public function model( $modelName, $backupname)
     {
-        return ucfirst(Str::lower($modelName));
+        return $modelName !== null ? ucfirst(Str::lower($modelName)) : ucfirst(Str::lower($backupname));
     }
 
-    public function lower_model(string $modelName) :string
+    public function lower_model( $modelName,$backup)
     {
-        return Str::lower($modelName);
+        return $modelName !== null ? Str::lower($modelName):Str::lower($backup);
     }
 
-    public function view(string $viewName) :string
+    public function view( $viewName,$modelName)
     {
-        return $viewName;
+        return $viewName !== null ? $viewName : $modelName ;
     }
 
-    public function namespace(string $namespace) :string
+    public function namespace($namespace)
     {
         return $namespace;
     }
 
-    public function plural(string $word) : string
+    public function plural( $word,$name)
     {
-        return  Str::plural($word);
+        return  $word !== null ? Str::plural($word) : Str::plural($name);
     }
 
 }

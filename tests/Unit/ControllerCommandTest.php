@@ -18,7 +18,5 @@ class ControllerCommandTest extends TestCase
             '--view'  =>  'admin/post'
         ])->expectsOutput('PostController created !');
 
-        $this->assertFileExists('G:\Laravel\easyGenerator\tests\temp\app\PostController.php');
-
     }
 }

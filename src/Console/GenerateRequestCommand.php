@@ -6,14 +6,15 @@ namespace biscuit\easyGenerator\Console;
 
 use biscuit\easyGenerator\Facades\Easy;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 
 class GenerateRequestCommand extends Command
 {
     protected $signature = 'easy:request
                             {name : The name of the model.}
-                            {--namespace= : The namespace of the model.}';
+                            {--namespace= : The namespace of the request.}';
 
-    protected $description = 'make an easy model';
+    protected $description = 'make an easy request';
 
 
     public function handle()
@@ -48,10 +49,17 @@ class GenerateRequestCommand extends Command
             $content
         );
 
-        file_put_contents("./tests/temp/requests/{$collection['name']}.php", $modelTemplate);
-    }
-    protected function getStub()
-    {
-        return __DIR__ . '/../Stubs/Request.stub';
+        if(is_null(config('easygenerator')))
+        {
+
+            file_put_contents(app_path()."/Http/Requests/{$collection['name']}.php", $modelTemplate);
+        }else {
+            if (!File::exists(config('easygenerator.request_path')))
+            {
+                File::makeDirectory(config('easygenerator.request_path'), 0777, true, true);
+            }
+            file_put_contents(config('easygenerator.request_path')."{$collection['name']}.php", $modelTemplate);
+
+        }
     }
 }

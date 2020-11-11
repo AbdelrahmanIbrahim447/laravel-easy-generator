@@ -110,10 +110,11 @@ trait MigrationsTrait
 
             }
         }
-        return $data;
+         return $data;
     }
-    public function foreign(string $keys) : array
+    public function foreign($keys)
     {
+        $data = '';
         $keys = trim($keys) != '' ? explode('#', $keys) : [];
         $spliced_command = [];
         foreach($keys as $index => $key)
@@ -123,6 +124,30 @@ trait MigrationsTrait
                 $spliced_command[$index][] = $rule;
             };
         }
-        return $spliced_command;
+        foreach($spliced_command as $foreignKey)
+        {
+            $data .=  '$table->foreign(\'' .$foreignKey[0] . '\')->references(\''.$foreignKey[1]. '\')->on(\'' . $foreignKey[2] . '\');
+            ';
+        }
+        return $data;
+    }
+
+    public function migrationDate($date)
+    {
+        $data = '';
+        if($date)
+        {
+            $data = '$table->timestamps();';
+        }
+        return $data;
+    }
+    public function migrationDeletes($deletes)
+    {
+        $data = '';
+        if($deletes)
+        {
+            $data = '$table->softDeletes();';
+        }
+        return $data;
     }
 }

@@ -9,13 +9,13 @@
         }
     ],
     "keywords": [
+        "PHP",
         "laravel",
         "admin",
         "crud generator",
         "laravel helper"
     ],
     "require": {},
-    ,
     "require-dev": {
         "orchestra/testbench": "^6.3",
         "mockery/mockery": "^1.4",

@@ -6,15 +6,16 @@ namespace biscuit\easyGenerator\Console;
 
 use biscuit\easyGenerator\Facades\Easy;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 
 class GenerateMigrationCommand extends Command
 {
     protected $signature = 'easy:migration
                             {model : The name of the model.}
                             {fields : Fields with : type separated by pipe | .}
-                            {--foreign : foreign key with foreign_entity then entity then table , eg:user_id|id|user.}
-                            {--soft-deletes : true or false .}
-                            {--dates : true or false .}';
+                            {--foreign= : foreign key with foreign_entity then entity then table , eg:user_id|id|user.}
+                            {--soft-deletes= : true or false .}
+                            {--dates=true : true or false .}';
 
     protected $description = 'make an easy migration file';
 
@@ -37,14 +38,21 @@ class GenerateMigrationCommand extends Command
 
         $fields = Easy::migrationFields($this->argument('fields'));
 
+        $data = Easy::dataFields();
+
         $foreignKeys = Easy::foreign($this->option('foreign'));
 
-        $data = Easy::dataFields();
+        $dates = Easy::migrationDate($this->option('dates'));
+
+        $deletes = Easy::migrationDeletes($this->option('soft-deletes'));
 
         $collection = [
           'className'   =>  $className,
           'name'        =>  $name,
           'fields'      =>  $data,
+          'foreign'     =>  $foreignKeys,
+          'deletes'     =>  $deletes,
+          'dates'       =>  $dates,
         ];
 
         $this->buildModel($content,$collection);
@@ -59,14 +67,24 @@ class GenerateMigrationCommand extends Command
                 '{{className}}',
                 '{{tableName}}',
                 '{{fields}}',
+                '{{foreign}}',
+                '{{soft-deletes}}',
+                '{{dates}}',
             ],
             [
                 $collection['className'],
                 $collection['name'],
                 $collection['fields'],
+                $collection['foreign'],
+                $collection['deletes'],
+                $collection['dates'],
             ],
             $content
         );
-        file_put_contents("./tests/temp/migrations/".$this->date . '_create_' . $collection['name'] . '_table.php', $modelTemplate);
+        if (!File::exists(base_path('database/migrations/')))
+        {
+            File::makeDirectory(base_path('database/migrations/'), 0777, true, true);
+        }
+        file_put_contents(base_path('database/migrations/').$this->date . '_create_' . $collection['name'] . '_table.php', $modelTemplate);
     }
 }

@@ -6,6 +6,7 @@ namespace biscuit\easyGenerator\Console;
 
 use biscuit\easyGenerator\Facades\Easy;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 
 class GenerateControllerCommand extends Command
 {
@@ -21,13 +22,13 @@ class GenerateControllerCommand extends Command
     {
         $name = Easy::name($this->argument('name'));
 
-        $model = Easy::model($this->option('model'));
+        $model = Easy::model($this->option('model'),$this->argument('name'));
 
-        $plural_model = Easy::plural($this->option('model'));
+        $plural_model = Easy::plural($this->option('model'),$this->argument('name'));
 
-        $lower_model = Easy::lower_model($this->option('model'));
+        $lower_model = Easy::lower_model($this->option('model'),$this->argument('name'));
 
-        $view = Easy::view($this->option('view'));
+        $view = Easy::view($this->option('view'),$lower_model);
 
         $collection = [
             'name'          =>  $name,
@@ -62,7 +63,21 @@ class GenerateControllerCommand extends Command
             ],
             $content
         );
+        if(is_null(config('easygenerator')))
+        {
+            if (!File::exists(app_path('/Http/Requests/')))
+            {
+                File::makeDirectory(app_path('/Http/Requests/'), 0777, true, true);
+            }
 
-        file_put_contents("./tests/temp/app/{$collection['name']}.php", $modelTemplate);
+            file_put_contents(app_path('/Http/Requests/') ."{$collection['name']}.php", $modelTemplate);
+        }else{
+            if (!File::exists(config('easygenerator.controller_path')))
+            {
+                File::makeDirectory(config('easygenerator.controller_path'), 0777, true, true);
+            }
+            file_put_contents(config('easygenerator.controller_path')."{$collection['name']}.php", $modelTemplate);
+
+        }
     }
 }
