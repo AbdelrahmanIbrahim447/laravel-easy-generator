@@ -29,14 +29,21 @@ class GenerateControllerCommand extends Command
 
         $view = Easy::view($this->option('view'));
 
+        $collection = [
+            'name'          =>  $name,
+            'model'         =>  $model,
+            'plural_model'  =>  $plural_model,
+            'lower_model'   =>  $lower_model,
+            'view'          =>  $view
+        ];
         $content = Easy::getStub('Controller');
 
-        $this->buildController($content,$name,$model,$plural_model,$lower_model,$view);
+        $this->buildController($content,$collection);
 
         $this->info($name . ' created !');
 
     }
-    protected function buildController($content,$name,$model,$plural_model,$lower_model,$view)
+    protected function buildController($content,$collection)
     {
         $modelTemplate = str_replace(
             [
@@ -47,15 +54,15 @@ class GenerateControllerCommand extends Command
                 '{{viewName}}',
             ],
             [
-                $name,
-                $model,
-                $plural_model,
-                $lower_model,
-                $view
+                $collection['name'],
+                $collection['model'],
+                $collection['plural_model'],
+                $collection['lower_model'],
+                $collection['view'],
             ],
             $content
         );
 
-        file_put_contents("./tests/temp/app/{$name}.php", $modelTemplate);
+        file_put_contents("./tests/temp/app/{$collection['name']}.php", $modelTemplate);
     }
 }

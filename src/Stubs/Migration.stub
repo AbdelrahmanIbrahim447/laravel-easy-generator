@@ -2,9 +2,9 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Schema;
 
-class create{{modelName}}Table extends Migration {
+class {{className}} extends Migration {
 
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class create{{modelName}}Table extends Migration {
      */
     public function up()
     {
-        Schema::create({{tableName}},function(Blueprint $table){
+        Schema::create('{{tableName}}',function(Blueprint $table){
+            $table->id();
             {{fields}}
+            {{foreign}}
+            {{soft-deletes}}
+            {{dates}}
         });
     }
 
@@ -25,7 +29,7 @@ class create{{modelName}}Table extends Migration {
      */
     public function down()
     {
-        Schema::drop({{tableName}});
+        Schema::drop('{{tableName}}');
     }
 
 }

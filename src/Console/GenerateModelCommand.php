@@ -6,7 +6,6 @@ namespace biscuit\easyGenerator\Console;
 
 use biscuit\easyGenerator\Facades\Easy;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\File;
 
 class GenerateModelCommand extends Command
 {
@@ -23,14 +22,19 @@ class GenerateModelCommand extends Command
 
         $namespace = Easy::namespace($this->option('namespace'));
 
+        $collection = [
+            'name'          =>  $name,
+            'namespace'     =>  $namespace,
+        ];
+
         $content = Easy::getStub('Model');
 
-        $this->buildModel($content,$name,$namespace);
+        $this->buildModel($content,$collection);
 
         $this->info($name . ' created !');
 
     }
-    protected function buildModel($content,$name,$namespace)
+    protected function buildModel($content,$collection)
     {
         $modelTemplate = str_replace(
             [
@@ -38,12 +42,12 @@ class GenerateModelCommand extends Command
                 '{{namespace}}',
             ],
             [
-                $name,
-                $namespace
+                $collection['name'],
+                $collection['namespace']
             ],
             $content
         );
 
-        file_put_contents("./tests/temp/{$name}.php", $modelTemplate);
+        file_put_contents("./tests/temp/{$collection['name']}.php", $modelTemplate);
     }
 }

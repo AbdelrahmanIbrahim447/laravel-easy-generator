@@ -9,9 +9,9 @@ class PostController extends Controller
 {
     public function index()
 {
-    $posts = Post::latest()->paginate(20);
+    $Posts = Post::latest()->paginate(20);
 
-        return view('admin/post',compact('posts'));
+        return view('admin/post',compact('Posts'));
     }
 
     public function create()
@@ -29,7 +29,7 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
 
-        return view('admin/post',compact('posts'));
+        return view('admin/post',compact('Posts'));
     }
 
     public function update(PostRequest $request, $id)
@@ -44,6 +44,6 @@ class PostController extends Controller
     {
         Post::destroy($id);
 
-        return view('admin/post',compact('posts'));
+        return view('admin/post',compact('Posts'));
     }
 }

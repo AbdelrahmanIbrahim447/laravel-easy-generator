@@ -5,6 +5,7 @@ namespace biscuit\easyGenerator;
 
 
 use biscuit\easyGenerator\Console\GenerateControllerCommand;
+use biscuit\easyGenerator\Console\GenerateMigrationCommand;
 use biscuit\easyGenerator\Console\GenerateModelCommand;
 use biscuit\easyGenerator\Console\GenerateRequestCommand;
 use Illuminate\Support\ServiceProvider;
@@ -25,6 +26,7 @@ class EasyGeneratorServiceProvider extends ServiceProvider
             GenerateControllerCommand::class,
             GenerateModelCommand::class,
             GenerateRequestCommand::class,
+            GenerateMigrationCommand::class,
         ]);
     }
 }

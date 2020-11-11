@@ -6,7 +6,6 @@ namespace biscuit\easyGenerator\Console;
 
 use biscuit\easyGenerator\Facades\Easy;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\File;
 
 class GenerateRequestCommand extends Command
 {
@@ -23,14 +22,19 @@ class GenerateRequestCommand extends Command
 
         $namespace = Easy::namespace($this->option('namespace'));
 
+        $collection = [
+            'name'          =>  $name,
+            'namespace'     =>  $namespace,
+        ];
+
         $content = Easy::getStub('Request');
 
-        $this->buildRequesst($content,$name,$namespace);
+        $this->buildRequest($content,$collection);
 
         $this->info($name . ' created !');
 
     }
-    protected function buildRequesst($content,$name,$namespace)
+    protected function buildRequest($content,$collection)
     {
         $modelTemplate = str_replace(
             [
@@ -38,13 +42,13 @@ class GenerateRequestCommand extends Command
                 '{{namespace}}',
             ],
             [
-                $name,
-                $namespace
+                $collection['name'],
+                $collection['namespace']
             ],
             $content
         );
 
-        file_put_contents("./tests/temp/requests/{$name}.php", $modelTemplate);
+        file_put_contents("./tests/temp/requests/{$collection['name']}.php", $modelTemplate);
     }
     protected function getStub()
     {
