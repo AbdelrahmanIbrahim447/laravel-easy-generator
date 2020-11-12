@@ -1,7 +1,7 @@
 <?php
 
 
-namespace biscuit\easyGenerator;
+namespace biscuit\easyGenerator\Traits;
 
 
 trait MigrationsTrait

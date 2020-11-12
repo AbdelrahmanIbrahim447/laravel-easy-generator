@@ -12,6 +12,7 @@ class GenerateRequestCommand extends Command
 {
     protected $signature = 'easy:request
                             {name : The name of the model.}
+                            {--rules= : define rules to validate.}
                             {--namespace= : The namespace of the request.}';
 
     protected $description = 'make an easy request';
@@ -19,13 +20,17 @@ class GenerateRequestCommand extends Command
 
     public function handle()
     {
+
         $name = Easy::request($this->argument('name'));
+
+        $rules = Easy::rules($this->option('rules'));
 
         $namespace = Easy::namespace($this->option('namespace'));
 
         $collection = [
             'name'          =>  $name,
             'namespace'     =>  $namespace,
+            'rules'         =>  $rules,
         ];
 
         $content = Easy::getStub('Request');
@@ -41,17 +46,18 @@ class GenerateRequestCommand extends Command
             [
                 '{{requestName}}',
                 '{{namespace}}',
+                '{{rules}}',
             ],
             [
                 $collection['name'],
-                $collection['namespace']
+                $collection['namespace'],
+                $collection['rules']
             ],
             $content
         );
 
         if(is_null(config('easygenerator')))
         {
-
             file_put_contents(app_path()."/Http/Requests/{$collection['name']}.php", $modelTemplate);
         }else {
             if (!File::exists(config('easygenerator.request_path')))

@@ -41,7 +41,9 @@ class EasyGeneratorServiceProvider extends ServiceProvider
     protected function registerPublishing()
     {
         $subs_path = config('easygenerator') ? config('easygenerator.stubs_path'): base_path('/resources/views/stubs/');
+
         $make = File::makeDirectory($subs_path, 0777, true, true);
+
         $this->publishes([
             __DIR__.'/Config/easygenerator.php' =>  config_path('easygenerator.php'),
         ],'easy-config');

@@ -4,31 +4,32 @@
 namespace biscuit\easyGenerator;
 
 
+use biscuit\easyGenerator\Validators\Validators;
 use Illuminate\Support\Str;
 
 class Inputs extends Validators
 {
-    public function name( $name)
+    public function name($name)
     {
         return ucfirst(Str::lower($name)) . 'Controller';
     }
 
-    public function request( $name)
+    public function request($name)
     {
         return ucfirst(Str::lower($name)) . 'Request';
     }
 
-    public function model( $modelName, $backupname)
+    public function model($modelName, $backupname = null)
     {
         return $modelName !== null ? ucfirst(Str::lower($modelName)) : ucfirst(Str::lower($backupname));
     }
 
-    public function lower_model( $modelName,$backup)
+    public function lower_model($modelName,$backup)
     {
         return $modelName !== null ? Str::lower($modelName):Str::lower($backup);
     }
 
-    public function view( $viewName,$modelName)
+    public function view($viewName,$modelName)
     {
         return $viewName !== null ? $viewName : $modelName ;
     }
@@ -38,7 +39,7 @@ class Inputs extends Validators
         return $namespace;
     }
 
-    public function plural( $word,$name)
+    public function plural($word,$name = null)
     {
         return  $word !== null ? Str::plural($word) : Str::plural($name);
     }
