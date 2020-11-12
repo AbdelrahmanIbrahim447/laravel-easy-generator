@@ -66,7 +66,6 @@ trait MigrationsTrait
                             $data .= '->'. $extra[0];
                             if (array_key_exists(1,$extra))
                             {
-
                                 $data .= '(\'' . $extra[1] . '\')';
                             }else{
                                 $data .= '()';
@@ -98,8 +97,13 @@ trait MigrationsTrait
                         $data .= '->'. $extra[0];
                         if (array_key_exists(1,$extra))
                         {
+                            if($extra[0] == 'comment')
+                            {
+                                $data .= '(\'' . $extra[1] . '\')';
+                            }else{
 
-                            $data .= '(\'' . $extra[1] . '\')';
+                                $data .= '(' . $extra[1] . ')';
+                            }
                         }else{
                             $data .= '()';
                         }

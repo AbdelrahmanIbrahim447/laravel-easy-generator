@@ -13,7 +13,7 @@ class Easy extends Inputs
 
     public function getStub($stub)
     {
-        return File::isDirectory(base_path('resources/views/stubs'))
+        return !File::exists(base_path('resources/views/stubs/').$stub.'.stub')
                 ? File::get(__DIR__ . './Stubs/'.$stub.'.stub')
                 :File::get(config('easygenerator.stubs_path').$stub.'.stub');
     }

@@ -10,6 +10,7 @@ return [
      | Custom path to publish stubs .
      |
      */
+
     'stubs_path'    =>  base_path('/resources/views/stubs/'),
 
     /*
@@ -20,6 +21,7 @@ return [
      | Custom path to publish controllers .
      |
      */
+
     'controller_path'    =>  app_path('/Http/Controllers/'),
 
     /*
@@ -30,6 +32,7 @@ return [
      | Custom path to publish requests .
      |
      */
+
     'request_path'    =>  app_path('/Http/Requests/'),
 
     /*
@@ -40,6 +43,7 @@ return [
      | Custom path to publish requests .
      |
      */
+
     'model_path'    =>  app_path().'/',
 
 ];
