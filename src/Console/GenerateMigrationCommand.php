@@ -4,6 +4,7 @@
 namespace biscuit\easyGenerator\Console;
 
 
+use biscuit\easyGenerator\Builders\MigrationBuilder;
 use biscuit\easyGenerator\Facades\Easy;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
@@ -18,15 +19,6 @@ class GenerateMigrationCommand extends Command
                             {--dates=true : true or false .}';
 
     protected $description = 'make an easy migration file';
-
-    protected $date;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->date = date('Y_m_d_His');
-
-    }
 
     public function handle()
     {
@@ -55,36 +47,9 @@ class GenerateMigrationCommand extends Command
           'dates'       =>  $dates,
         ];
 
-        $this->buildModel($content,$collection);
+        MigrationBuilder::build($content,$collection);
 
         $this->info($name . 'Migration created !');
 
-    }
-    protected function buildModel($content,$collection)
-    {
-        $modelTemplate = str_replace(
-            [
-                '{{className}}',
-                '{{tableName}}',
-                '{{fields}}',
-                '{{foreign}}',
-                '{{soft-deletes}}',
-                '{{dates}}',
-            ],
-            [
-                $collection['className'],
-                $collection['name'],
-                $collection['fields'],
-                $collection['foreign'],
-                $collection['deletes'],
-                $collection['dates'],
-            ],
-            $content
-        );
-        if (!File::exists(base_path('database/migrations/')))
-        {
-            File::makeDirectory(base_path('database/migrations/'), 0777, true, true);
-        }
-        file_put_contents(base_path('database/migrations/').$this->date . '_create_' . $collection['name'] . '_table.php', $modelTemplate);
     }
 }

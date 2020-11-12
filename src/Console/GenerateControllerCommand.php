@@ -4,6 +4,7 @@
 namespace biscuit\easyGenerator\Console;
 
 
+use biscuit\easyGenerator\Builders\ControllerBuilder;
 use biscuit\easyGenerator\Facades\Easy;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
@@ -31,12 +32,9 @@ class GenerateControllerCommand extends Command
 
         $view = Easy::view($this->option('view'),$lower_model);
 
-        if(config('easygenerator.controller_namespace'))
-        {
-            $namespace = config('easygenerator.controller_namespace');
-        }else{
-            $namespace = Easy::namespace($this->option('namespace'));
-        }
+        $namespace = config('easygenerator.controller_namespace')
+                    ? config('easygenerator.controller_namespace')
+                    : Easy::namespace($this->option('namespace'));
 
         $addControllerExtend = $namespace != 'App\\Http\\Controllers' ? 'use App\Http\Controllers\Controller;' : '';
 
@@ -49,51 +47,12 @@ class GenerateControllerCommand extends Command
             'namespace'             =>  $namespace,
             'controllerExtends'     =>  $addControllerExtend
         ];
+
         $content = Easy::getStub('Controller');
 
-        $this->buildController($content,$collection);
+        ControllerBuilder::build($content,$collection);
 
         $this->info($name . ' created !');
 
-    }
-    protected function buildController($content,$collection)
-    {
-        $modelTemplate = str_replace(
-            [
-                '{{name}}',
-                '{{modelName}}',
-                '{{modelNamePluralLowerCase}}',
-                '{{modelNameSingularLowerCase}}',
-                '{{viewName}}',
-                '{{namespace}}',
-                '{{controllerExtends}}',
-            ],
-            [
-                $collection['name'],
-                $collection['model'],
-                $collection['plural_model'],
-                $collection['lower_model'],
-                $collection['view'],
-                $collection['namespace'],
-                $collection['controllerExtends'],
-            ],
-            $content
-        );
-        if(is_null(config('easygenerator')))
-        {
-            if (!File::exists(app_path('/Http/Requests/')))
-            {
-                File::makeDirectory(app_path('/Http/Requests/'), 0777, true, true);
-            }
-
-            file_put_contents(app_path('/Http/Requests/') ."{$collection['name']}.php", $modelTemplate);
-        }else{
-            if (!File::exists(config('easygenerator.controller_path')))
-            {
-                File::makeDirectory(config('easygenerator.controller_path'), 0777, true, true);
-            }
-            file_put_contents(config('easygenerator.controller_path')."{$collection['name']}.php", $modelTemplate);
-
-        }
     }
 }
