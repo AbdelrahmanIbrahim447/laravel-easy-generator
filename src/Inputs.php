@@ -39,6 +39,16 @@ class Inputs extends Validators
         return $namespace;
     }
 
+    public function deletes($deletes)
+    {
+        $data = '';
+        if($deletes)
+        {
+            $data = 'protected $softDelete = true;';
+        }
+        return $data;
+    }
+
     public function plural($word,$name = null)
     {
         return  $word !== null ? Str::plural($word) : Str::plural($name);

@@ -13,6 +13,7 @@ class GenerateControllerCommand extends Command
     protected $signature = 'easy:controller
                             {name : The name of the Crud.}
                             {--model= : The name of the model related to controller.}
+                            {--namespace=App\Http\Controllers : The name of the model related to controller.}
                             {--view= : The name of the view redirected to.}';
 
     protected $description = 'make an easy CRUD controller';
@@ -30,12 +31,23 @@ class GenerateControllerCommand extends Command
 
         $view = Easy::view($this->option('view'),$lower_model);
 
+        if(config('easygenerator.controller_namespace'))
+        {
+            $namespace = config('easygenerator.controller_namespace');
+        }else{
+            $namespace = Easy::namespace($this->option('namespace'));
+        }
+
+        $addControllerExtend = $namespace != 'App\\Http\\Controllers' ? 'use App\Http\Controllers\Controller;' : '';
+
         $collection = [
-            'name'          =>  $name,
-            'model'         =>  $model,
-            'plural_model'  =>  $plural_model,
-            'lower_model'   =>  $lower_model,
-            'view'          =>  $view
+            'name'                  =>  $name,
+            'model'                 =>  $model,
+            'plural_model'          =>  $plural_model,
+            'lower_model'           =>  $lower_model,
+            'view'                  =>  $view,
+            'namespace'             =>  $namespace,
+            'controllerExtends'     =>  $addControllerExtend
         ];
         $content = Easy::getStub('Controller');
 
@@ -53,6 +65,8 @@ class GenerateControllerCommand extends Command
                 '{{modelNamePluralLowerCase}}',
                 '{{modelNameSingularLowerCase}}',
                 '{{viewName}}',
+                '{{namespace}}',
+                '{{controllerExtends}}',
             ],
             [
                 $collection['name'],
@@ -60,6 +74,8 @@ class GenerateControllerCommand extends Command
                 $collection['plural_model'],
                 $collection['lower_model'],
                 $collection['view'],
+                $collection['namespace'],
+                $collection['controllerExtends'],
             ],
             $content
         );

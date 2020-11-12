@@ -19,4 +19,33 @@ class ControllerCommandTest extends TestCase
         ])->expectsOutput('PostController created !');
 
     }
+    /** @test */
+    public function TestControllerGenerateWithNameOnlyCommand()
+    {
+
+        $this->artisan('easy:controller',[
+            'name'  =>  'post',
+        ])->expectsOutput('PostController created !');
+
+    }
+    /** @test */
+    public function TestControllerGenerateWithModelCommand()
+    {
+
+        $this->artisan('easy:controller',[
+            'name'  =>  'post',
+            '--model' =>  'Post',
+        ])->expectsOutput('PostController created !');
+
+    }
+    /** @test */
+    public function TestControllerGenerateWithViewCommand()
+    {
+
+        $this->artisan('easy:controller',[
+            'name'  =>  'post',
+            '--view'  =>  'admin/post'
+        ])->expectsOutput('PostController created !');
+
+    }
 }

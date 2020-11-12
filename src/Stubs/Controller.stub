@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace {{namespace}};
 
+{{controllerExtends}}
 use App\Http\Requests\{{modelName}}Request;
 use App\{{modelName}};
+
 
 class {{name}} extends Controller
 {

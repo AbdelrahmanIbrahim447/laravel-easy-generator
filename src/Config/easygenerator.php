@@ -25,6 +25,18 @@ return [
     'controller_path'    =>  app_path('/Http/Controllers/'),
 
     /*
+    |--------------------------------------------------------------------------
+    | Easy Generator controller namespace
+    |--------------------------------------------------------------------------
+    |
+    | Custom namespace attached to controllers .
+    |
+    */
+
+    'controller_namespace'    =>  'App\\Http\\Controllers',
+
+
+    /*
      |--------------------------------------------------------------------------
      | Easy Generator requests Path
      |--------------------------------------------------------------------------
@@ -45,5 +57,17 @@ return [
      */
 
     'model_path'    =>  app_path().'/',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Easy Generator controller namespace
+    |--------------------------------------------------------------------------
+    |
+    | Custom namespace attached to controllers .
+    |
+    */
+
+    'model_namespace'    =>  'App',
+
 
 ];

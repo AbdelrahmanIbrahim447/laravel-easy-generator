@@ -12,6 +12,7 @@ class GenerateModelCommand extends Command
 {
     protected $signature = 'easy:model
                             {name : The name of the model.}
+                            {--soft=false : add soft deletes to model.}
                             {--namespace=App : The namespace of the model.}';
 
     protected $description = 'make an easy model';
@@ -21,11 +22,19 @@ class GenerateModelCommand extends Command
     {
         $name = Easy::model($this->argument('name'));
 
-        $namespace = Easy::namespace($this->option('namespace'));
+        $deletes = Easy::deletes($this->option('soft'));
+
+        if(config('easygenerator.model_namespace'))
+        {
+            $namespace = config('easygenerator.model_namespace');
+        }else{
+            $namespace = Easy::namespace($this->option('namespace'));
+        }
 
         $collection = [
             'name'          =>  $name,
             'namespace'     =>  $namespace,
+            'deletes'       =>  $deletes,
         ];
 
         $content = Easy::getStub('Model');
@@ -41,10 +50,12 @@ class GenerateModelCommand extends Command
             [
                 '{{modelName}}',
                 '{{namespace}}',
+                '{{soft-deletes}}',
             ],
             [
                 $collection['name'],
-                $collection['namespace']
+                $collection['namespace'],
+                $collection['deletes']
             ],
             $content
         );
